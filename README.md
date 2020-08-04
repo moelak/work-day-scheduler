@@ -8,8 +8,7 @@ I also used the [Moment.js](https://momentjs.com/) library to work with date and
 
 
 AS AN employee with a busy schedule
-I WANT to add important events to a daily planner
-SO TH
+I WANT to add important events to a daily planner.
 
 
 ## Acceptance Criteria
