@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Work Day Scheduler</title>
+  </head>
+
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-3">Work Day Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your work day</p>
+      <p id="currentDay" class="lead"></p>
+    </header>
+    <div class="container">
+      <div class="table">
+        <div class="row">
+          <div class="col hour">
+            <span class="h">8</span><span class="a">AM</span>
+          </div>
+          <textarea class="col text" data-name="8"></textarea>
+          <div class="col saveBtn">
+            <i class="fa fa-save"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">9</span><span class="a">AM</span>
+          </div>
+          <textarea class="col text" data-name="9"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">10</span><span class="a">AM</span>
+          </div>
+          <textarea class="col text" data-name="10"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">11</span><span class="a">AM</span>
+          </div>
+          <textarea class="col text" data-name="11"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">12</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="12"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">1</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="13"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">2</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="14"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+
+        <div class="row">
+          <div class="col hour">
+            <span class="h">3</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="15"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+
+        <div class="row">
+          <div class="col hour">
+            <span class="h">4</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="16"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">5</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="17"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+        <div class="row">
+          <div class="col hour">
+            <span class="h">6</span><span class="a">PM</span>
+          </div>
+          <textarea class="col text" data-name="18"></textarea>
+          <div class="col saveBtn"><i class="fa fa-save"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="demo"></div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <script>
+      //<----- We got the date and hour form the moment.js------>
+      var date = moment().format('dddd, MMMM Do'); //Friday, July 31st
+      var hours = parseInt(moment().format('H'));
+      let today = moment();
+      let tomorrow = moment().add(1, 'days');
+      let yesterday = moment().add(-1, 'days');
+
+      function currentDate() {
+        $('#currentDay').text(date);
+        //  console.log(hours);
+        //<----- We just color code each hour based on the cuurent,past, adn future time ------>
+        $('.text').each(function () {
+          // console.log($(this).attr('data-name'));
+          var test = parseInt($(this).attr('data-name'));
+          if (test === hours) {
+            $(this).addClass('present');
+          } else if (test < hours) {
+            $(this).addClass('past');
+          } else {
+            $(this).addClass('future');
+          }
+        });
+
+        var d = JSON.parse(localStorage.getItem('date'));
+
+        var obj = {
+          value: date,
+        };
+
+        if (d !== date) {
+          localStorage.clear();
+        }
+
+        localStorage.setItem('date', JSON.stringify(obj.value));
+
+        //<----- get the value form the textare ------>
+
+        $('textarea').each(function (index) {
+          $(this).attr('id', 'textarea-' + index);
+        });
+        $('i').each(function (index) {
+          //should be class and set id to index as well as add class save-btn
+          $(this).attr('id', index).addClass('save-icon');
+        });
+
+        //make a for loop to go from 0-10 inclusive
+        //Get the value for every timeslot and put it on the DOM
+        for (var i = 0; i <= 10; i++) {
+          var value = JSON.parse(localStorage.getItem(i));
+          $('#textarea-' + i).val(value);
+        }
+      }
+      currentDate();
+
+      //----- Listen to the click to be fire ------>
+      //listen for the document
+      $(document).on('click', '.save-icon', function (event) {
+        //use THIS keyword to get index from id of button
+        var id = $(this).attr('id');
+        $('<div class="Success">Saved!</div>')
+          .insertAfter('#' + id)
+          .delay(1000)
+          .fadeOut(1000, function () {
+            $(this).remove();
+          });
+
+        //console.log('id: ' + id);
+        var textVal = $(this).parent().siblings('textarea').val();
+        // console.log(textVal);
+        //var firstVal = $("#textarea-" + id).val();
+
+        var obj = {
+          value: textVal,
+        };
+
+        localStorage.setItem(id, JSON.stringify(obj.value));
+      });
+    </script>
+  </body>
+</html>
